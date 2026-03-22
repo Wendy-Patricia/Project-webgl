@@ -3,19 +3,19 @@
 - [ ] Paragraphe(s) d'explications techniques
 - [ ] Légèreté du dossier (<2Mo)
 - [x] Géométrie
-- [ ] Couleur
-- [ ] Transparence
+- [x] Couleur
+- [x] Transparence
 - [x] Eclairage
 - [ ] Ombres portées
-- [x] Position de la caméra
+- [ ] Position de la caméra
 - [ ] Brouillard
 - [x] Effet miroir
 - [x] Texture classique
-- [ ] Texture avec transparence
+- [x] Texture avec transparence
 - [ ] Sprites
 - [ ] Environment map
 - [x] Skybox
 - [ ] specular maps
-- [ ] normal maps
+- [x] normal maps
 - [ ] Interaction par GUI
-- [x] Animation
+- [x]Animation

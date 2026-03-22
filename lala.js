@@ -134,6 +134,34 @@ function createClouds() {
     }
 }
 
+/**
+ function fillScene() {
+    scene.add(new THREE.AmbientLight(0x221100, 0.5));
+
+    createSun();
+
+    
+    let light1 = new THREE.DirectionalLight(0xff9966, 1.5);
+    light1.position.copy(sun.position);
+    scene.add(light1);
+
+    // Céu - Usando uma esfera completa para evitar vãos no horizonte
+    const loader = new THREE.TextureLoader();
+    loader.load('textures/sunset_5.png', function (texture) {
+        const geometry = new THREE.SphereGeometry(5000, 64, 32);
+        const material = new THREE.MeshBasicMaterial({
+            map: texture,
+            side: THREE.BackSide
+        });
+
+        sky = new THREE.Mesh(geometry, material);
+        scene.add(sky);
+    });
+
+    buildWater();
+    createClouds();
+}
+ */
 
 function fillScene() {
     scene.add(new THREE.AmbientLight(0x221100, 0.5));
@@ -149,6 +177,42 @@ function fillScene() {
 
     createClouds();
 }
+
+/**
+ function init() {
+    const container = document.getElementById('webGL');
+    const canvasWidth = container.clientWidth || 846;
+    const canvasHeight = container.clientHeight || 494;
+
+    camera = new THREE.PerspectiveCamera(45, canvasWidth / canvasHeight, 1, 20000);
+    // Posicionando a câmera um pouco acima da água
+    camera.position.set(-222, 50, 1000);
+
+    renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(canvasWidth, canvasHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+
+    cameraControls = new OrbitControls(camera, renderer.domElement);
+    cameraControls.target.set(0, -160, 0);
+
+    cameraControls.enablePan = false;
+
+    // NÃO deixa rodar tudo (evita ver a junção)
+    cameraControls.minAzimuthAngle = -Math.PI / 2;
+    cameraControls.maxAzimuthAngle = Math.PI / 20000;
+
+    // NÃO deixa olhar demais para cima/baixo
+    cameraControls.minPolarAngle = Math.PI / 4;
+    cameraControls.maxPolarAngle = Math.PI / 1.8;
+
+
+    // Limites de zoom
+    cameraControls.minDistance = 100;
+    cameraControls.maxDistance = 5000;
+
+    cameraControls.update();
+}
+ */
 
 function init() {
     const container = document.getElementById('webGL');

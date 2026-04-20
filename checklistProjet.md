@@ -2,20 +2,20 @@
 - [ ] Mise en page de la page web
 - [ ] Paragraphe(s) d'explications techniques
 - [ ] Légèreté du dossier (<2Mo)
-- [x] Géométrie
-- [x] Couleur
-- [x] Transparence
-- [x] Eclairage
+- [ ] Géométrie
+- [ ] Couleur
+- [ ] Transparence
+- [ ] Eclairage
 - [ ] Ombres portées
 - [ ] Position de la caméra
 - [ ] Brouillard
-- [x] Effet miroir
-- [x] Texture classique
-- [x] Texture avec transparence
+- [ ] Effet miroir
+- [ ] Texture classique
+- [ ] Texture avec transparence
 - [ ] Sprites
 - [ ] Environment map
-- [x] Skybox
+- [ ] Skybox
 - [ ] specular maps
-- [x] normal maps
+- [ ] normal maps
 - [ ] Interaction par GUI
-- [x]Animation
+- [ ]Animation

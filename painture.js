@@ -4,6 +4,7 @@ import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { Water }         from 'https://threejs.org/examples/jsm/objects/Water.js';
 import { Sky }           from 'three/addons/objects/Sky.js';
+import { addBoats } from './bateaux.js';  //importation de la fonction addBoats depuis bateaux.js
 
 // ─── Globais ────────────────────────────────────────────────
 let camera, renderer, cameraControls, clock, water, sun;
@@ -329,6 +330,8 @@ function fillScene() {
     createSun();
     createClouds();
     createVolumetricFog();
+
+    addBoats(scene);   //ajout des bateaux à la scène
 }
 
 

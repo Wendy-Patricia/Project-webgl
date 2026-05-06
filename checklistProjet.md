@@ -1,21 +1,21 @@
 - [ ] Esthetisme
 - [ ] Mise en page de la page web
 - [ ] Paragraphe(s) d'explications techniques
-- [ ] Légèreté du dossier (<2Mo)
-- [ ] Géométrie
-- [ ] Couleur
-- [ ] Transparence
-- [ ] Eclairage
-- [ ] Ombres portées
-- [ ] Position de la caméra
-- [ ] Brouillard
-- [ ] Effet miroir
-- [ ] Texture classique
-- [ ] Texture avec transparence
-- [ ] Sprites
-- [ ] Environment map
-- [ ] Skybox
-- [ ] specular maps
-- [ ] normal maps
-- [ ] Interaction par GUI
-- [ ]Animation
+- [ ] Légèreté du dossier (<3Mo)
+- [x] Géométrie -> le soleil
+- [x] Couleur -> color pour les bateaux
+- [x] Transparence -> mettre transparence dans les bateaux avec un slider 
+- [x] Eclairage -> lumiere du soleil
+- [x] Ombres portées -> ombres des bateaux
+- [x] Position de la caméra -> point de vue du soleil/cima
+- [x] Brouillard -> botao
+- [x] Effet miroir -> effect du ciel dans l'eau
+- [x] Texture classique -> dans l'eau
+- [x] Texture avec transparence -> les nuages
+- [x] Sprites -> Pour les nuages( avec la Texture avec transparence )
+- [ ] Environment map -> mettre un cylindre metalique dans un des bateaux que va fair la reflexion
+- [ ] Skybox -> ciel
+- [ ] specular maps ->
+- [ ] normal maps -> dans les bateaux
+- [x] Interaction par GUI -> deplacer les bateaux
+- [x] Animation -> nuages

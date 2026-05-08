@@ -622,10 +622,13 @@ function fillScene() {
     buildWater();
     buildMirror();
     createSun();
+    
+    addBoats(scene);
+        
+
     createClouds();
     createVolumetricFog();
 
-    addBoats(scene);   //ajout des bateaux à la scène
 }
 
 

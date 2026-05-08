@@ -3,6 +3,11 @@
 
 import * as THREE from 'three';
 
+const _loader    = new THREE.TextureLoader();
+const colorTex   = _loader.load('textures/texture.jpg',    t => { t.wrapS = t.wrapT = THREE.RepeatWrapping; });
+const normalTex  = _loader.load('textures/textureMap.png', t => { t.wrapS = t.wrapT = THREE.RepeatWrapping; });
+
+
 function createBoat(x, y, z, scale) {
     const boat = new THREE.Group();
 
@@ -16,16 +21,27 @@ function createBoat(x, y, z, scale) {
     // ── Matériaux exposés pour le contrôle de transparence ──
     const hullMat = new THREE.MeshPhongMaterial({
         color: 0x8B4513,
+        map:         colorTex,       //  texture bois
+        normalMap:   normalTex,      // relief des planches
+        normalScale: new THREE.Vector2(1.0, 1.0), // intensité du relief
+        specular:    0x221108,       // reflet chaud accord coucher de soleil
+        shininess:   20,
+       // combine:     THREE.MultiplyOperation,
+    //reflectivity: 0.1,           // dosage de l'envMap (0→1)
         transparent: true,
-        opacity: 1.0
+        opacity:     1.0
     });
     const mastMat = new THREE.MeshPhongMaterial({
         color: 0x8B4513,
+        specular: 0x664422, //reflet chaud, bois huilé
+        shininess: 100, 
         transparent: true,
         opacity: 1.0
     });
     const sailMat = new THREE.MeshPhongMaterial({
         color: 0xffffff,
+        specular: 0xaaaaaa,   //reflet gris-ardent
+        shininess:100,
         transparent: true,
         opacity: 0.9
     });
@@ -38,6 +54,7 @@ function createBoat(x, y, z, scale) {
     hull.position.z = -0.25;
     hull.castShadow    = true;
     hull.receiveShadow = true;
+    hull.renderOrder = 1;
     boat.add(hull);
 
     const mast = new THREE.Mesh(

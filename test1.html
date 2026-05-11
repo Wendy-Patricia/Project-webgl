@@ -1,33 +1,191 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TP 1</title>
-<style>
-body { margin: 0; }
-canvas { width: 100%; height: 100% }
-.centre{text-align: center;}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sc&egrave;ne Maritime &mdash; Three.js</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<!-- API importe du site de Three.js-->
+<div class="page-wrap">
+
+<!-- __ Header ________________________________________________ -->
+<header>
+  <div class="header-meta header-meta-left">
+    Travaux Pratiques &mdash; Mod&eacute;lisation 3D<br>
+    Three.js &middot; WebGL
+    <span class="autoras">
+      Eunice Ligeiro<br>
+      Wendy Mechisso<br>
+      Aingo Razakanirina
+    </span>
+  </div>
+
+  <h1>
+    Sc&egrave;ne Maritime
+    <em>Coucher de soleil sur l&rsquo;Atlantique</em>
+  </h1>
+
+  <div class="header-meta header-meta-right">
+    TP 1 &mdash; Mod&eacute;lisation<br>
+    IUT &middot; 2024&ndash;2025
+  </div>
+</header>
+
+<div class="rule">Rendu interactif</div>
+
+<!-- __ Canvas _______________________________________________ -->
+<div class="canvas-wrapper">
+  <div id="loading-overlay">
+    <div class="loading-spinner"></div>
+    <span class="loading-text">Chargement de la sc&egrave;ne&hellip;</span>
+  </div>
+  <div id="webGL"></div>
+</div>
+
+<div class="canvas-caption">
+  <span class="canvas-caption-text">Three.js &middot; WebGL &middot; Temps r&eacute;el</span>
+  <span class="canvas-caption-hint">Cliquez et glissez pour orbiter &mdash; Molette pour zoomer</span>
+</div>
+
+<div class="rule">Inspiration &amp; Techniques</div>
+
+<!-- __ Inspiration __________________________________________ -->
+<section class="inspiration">
+  <h2 class="section-title">Peinture d&rsquo;inspiration</h2>
+  <div class="inspiration-layout">
+    <div class="inspiration-img-wrap">
+      <img src="img.png" alt="Peinture d'inspiration &mdash; voiliers au coucher de soleil" />
+      <div class="inspiration-caption">
+        Voiliers au coucher de soleil &mdash; aquarelle de r&eacute;f&eacute;rence
+      </div>
+    </div>
+    <div class="inspiration-text">
+      <p>Cette sc&egrave;ne 3D s&rsquo;inspire d&rsquo;une aquarelle repr&eacute;sentant trois voiliers naviguant vers un coucher de soleil flamboyant. Les silhouettes sombres des b&acirc;teaux se d&eacute;tachent sur un ciel aux teintes dor&eacute;es et oranges, refl&eacute;t&eacute;es dans une mer bleue profonde.</p>
+      <p>Nous avons cherch&eacute; &agrave; reproduire cette atmosph&egrave;re lumineuse en Three.js en travaillant sur plusieurs aspects visuels cl&eacute;s : la couleur chaude du ciel via le shader <code>Sky</code>, le reflet de la sc&egrave;ne dans l&rsquo;eau gr&acirc;ce au <code>Reflector</code>, et l&rsquo;orientation des voiliers directement tourn&eacute;s vers l&rsquo;horizon embras&eacute;, comme dans la peinture originale.</p>
+      <p>Le brouillard volumétrique double couche et les nuages en sprites renforcent la profondeur atmosphérique caractéristique des peintures &agrave; l&rsquo;aquarelle, o&ugrave; les lointains se fondent dans la brume et la lumi&egrave;re.</p>
+    </div>
+  </div>
+</section>
+
+<div class="rule">Techniques impl&eacute;ment&eacute;es</div>
+
+<!-- __ Techniques ___________________________________________ -->
+<section class="techniques">
+  <h2 class="section-title">Documentation technique</h2>
+
+  <div class="tech-grid">
+
+    <div class="tech-card">
+      <div class="tech-card-label">G&eacute;om&eacute;trie &amp; Mat&eacute;riaux</div>
+      <h3>Soleil &amp; Ciel atmosph&eacute;rique</h3>
+      <p>Le soleil est simul&eacute; via la classe <code>Sky</code> de Three.js, qui r&eacute;sout les &eacute;quations de diffusion de Rayleigh et de Mie en temps r&eacute;el. Les param&egrave;tres de turbidit&eacute;, d&rsquo;&eacute;l&eacute;vation et d&rsquo;azimut d&eacute;finissent la couleur ambiante de toute la sc&egrave;ne &mdash; ici r&eacute;gl&eacute;s pour un coucher de soleil &agrave; 2&deg; d&rsquo;&eacute;l&eacute;vation avec une teinte orange&eacute;e chaude.</p>
+    </div>
+
+    <div class="tech-card">
+      <div class="tech-card-label">&Eacute;clairage</div>
+      <h3>Lumi&egrave;re directionnelle &amp; Ombres port&eacute;es</h3>
+      <p>Une <code>DirectionalLight</code> positionn&eacute;e selon le vecteur solaire (<code>sunPosition</code> du Sky) simule l&rsquo;astre. Les ombres sont activ&eacute;es via <code>PCFSoftShadowMap</code> avec une shadow map de 2048&times;2048 pixels, projetant des ombres douces sur la surface de l&rsquo;eau depuis les coques des bateaux.</p>
+    </div>
+
+    <div class="tech-card">
+      <div class="tech-card-label">Textures</div>
+      <h3>Normal maps &amp; Specular maps</h3>
+      <p>Les coques et m&acirc;ts des bateaux utilisent une normal map pour simuler le relief des planches de bois sans augmenter la g&eacute;om&eacute;trie. Une specular map contr&ocirc;le l&rsquo;intensit&eacute; du reflet pixel par pixel &mdash; les ar&ecirc;tes mouill&eacute;es brillent davantage que le bois brut mat. La voile applique la m&ecirc;me normal map avec une intensit&eacute; r&eacute;duite (0.25) pour le grain du tissu.</p>
+    </div>
+
+    <div class="tech-card">
+      <div class="tech-card-label">Transparence</div>
+      <h3>Opacit&eacute; &amp; Contr&ocirc;le en temps r&eacute;el</h3>
+      <p>Les mat&eacute;riaux <code>MeshPhongMaterial</code> des bateaux sont d&eacute;clar&eacute;s avec <code>transparent: true</code>. Leur propri&eacute;t&eacute; <code>opacity</code> est expos&eacute;e via des sliders dans le panneau de contr&ocirc;le, permettant de modifier la transparence de la coque, du m&acirc;t et de la voile ind&eacute;pendamment, sans recompilation des shaders.</p>
+    </div>
+
+    <div class="tech-card">
+      <div class="tech-card-label">Reflets</div>
+      <h3>Effet miroir &amp; Environment map</h3>
+      <p>L&rsquo;eau combine deux syst&egrave;mes&nbsp;: un <code>Reflector</code> avec shader GLSL custom (distorsion sinuso&iuml;dale + fresnel simplifi&eacute;) pour les r&eacute;flexions en temps r&eacute;el, et une texture <code>Water</code> anim&eacute;e. La bou&eacute;e utilise une environment map g&eacute;n&eacute;r&eacute;e via <code>PMREMGenerator.fromScene()</code> depuis le Sky pour des reflets m&eacute;talliques physiquement corrects.</p>
+    </div>
+
+    <div class="tech-card">
+      <div class="tech-card-label">Sprites &amp; Animation</div>
+      <h3>Nuages &amp; Brouillard volum&eacute;trique</h3>
+      <p>Cinquante groupes de sprites utilisent une texture PNG avec transparence alpha pour les nuages, anim&eacute;s en translation avec wrap-around et balancement vertical sinuso&iuml;dal. Le brouillard est double couche &mdash; un syst&egrave;me de particules GLSL (<em>near</em> et <em>far</em>) superpos&eacute; &agrave; un <code>FogExp2</code> natif de Three.js &mdash; dont la densit&eacute; globale est contr&ocirc;l&eacute;e par slider.</p>
+    </div>
+
+    <div class="tech-card">
+      <div class="tech-card-label">Interaction</div>
+      <h3>Cam&eacute;ra &amp; Drag &amp; drop</h3>
+      <p>Les <code>OrbitControls</code> contraignent la cam&eacute;ra entre un angle polaire minimum (20&deg;) et l&rsquo;horizon (&asymp;80&deg;), emp&ecirc;chant de passer sous l&rsquo;eau. Un syst&egrave;me de raycasting d&eacute;tecte le bateau sous la souris et projette la position de drag sur un plan horizontal <code>Y = 50</code>, offrant un d&eacute;placement intuitif des embarcations en 3D.</p>
+    </div>
+
+    <div class="tech-card">
+      <div class="tech-card-label">Rendu</div>
+      <h3>Position de cam&eacute;ra &amp; Point de vue</h3>
+      <p>La cam&eacute;ra est positionn&eacute;e en hauteur avec un angle plongeant depuis <code>(-400, 300, 1800)</code>, simulant un point de vue a&eacute;rien qui r&eacute;v&egrave;le simultan&eacute;ment la surface de l&rsquo;eau, les bateaux et l&rsquo;horizon embras&eacute;. Ce placement met en valeur &agrave; la fois l&rsquo;effet miroir de l&rsquo;eau et la profondeur atmosph&eacute;rique du ciel.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- __ Footer _______________________________________________ -->
+<footer>
+  <span>TP 1 &mdash; Mod&eacute;lisation 3D</span>
+  <div class="footer-autoras">
+    <span>Eunice Ligeiro</span>
+    <span>Wendy Mechisso</span>
+    <span>Aingo Razakanirina</span>
+  </div>
+  <span class="footer-right">Three.js r<span id="three-version">???</span> &middot; WebGL</span>
+</footer>
+
+</div><!-- /page-wrap -->
+
+<!-- __ Scripts ______________________________________________ -->
 <script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
 <script type="importmap">
 {
   "imports": {
-	"three": "https://threejs.org/build/three.module.js",
-	"three/addons/": "https://threejs.org/examples/jsm/"
+    "three": "https://threejs.org/build/three.module.js",
+    "three/addons/": "https://threejs.org/examples/jsm/"
   }
 }
 </script>
-<!-- JQuery pour afficher les erreurs-->
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<!-- Un titre centre-->
-<h1 class="centre"> TP 1- Modelisation</h1>
-<div id="webGL" class="centre"></div>
-<!-- Mon script avec un chemin relatif-->
+
+<script type="module">
+  import * as THREE from 'three';
+  document.getElementById('three-version').textContent = THREE.REVISION;
+</script>
+
 <script type="module" src="painture.js"></script>
-<p class="centre"> Exercice 1.a </p>
+
+<script>
+  const overlay = document.getElementById('loading-overlay');
+  const observer = new MutationObserver(() => {
+    const canvas = document.querySelector('#webGL canvas');
+    if (canvas) {
+      setTimeout(() => {
+        overlay.classList.add('hidden');
+        setTimeout(() => overlay.remove(), 900);
+      }, 600);
+      observer.disconnect();
+    }
+  });
+  observer.observe(document.getElementById('webGL'), { childList: true });
+
+  const cards = document.querySelectorAll('.tech-card');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  cards.forEach(c => io.observe(c));
+</script>
+
 </body>
 </html>

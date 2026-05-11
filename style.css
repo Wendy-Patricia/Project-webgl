@@ -1,0 +1,383 @@
+/* ═══════════════════════════════════════════════════════════
+   style.css — Scène Maritime · Three.js
+   Autoras: Eunice Ligeiro, Wendy Mechisso, Aingo Razakanirina
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Variables ───────────────────────────────────────────── */
+:root {
+  --ink:      #1a0f06;
+  --paper:    #f5ede0;
+  --rust:     #b84e1a;
+  --rust-dim: #7a3410;
+  --gold:     #c9923e;
+  --mist:     #d4c4b0;
+  --canvas-h: 520px;
+}
+
+/* ── Reset ───────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── Page ────────────────────────────────────────────────── */
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  line-height: 1.75;
+}
+
+/* Wrapper que contém o scroll horizontal sem afetar position:fixed */
+.page-wrap {
+  overflow-x: hidden;
+}
+
+/* ── Grain overlay ───────────────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.5;
+}
+
+/* ── Header ──────────────────────────────────────────────── */
+header {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: end;
+  padding: 3.5rem 5vw 2.2rem;
+  border-bottom: 1px solid var(--mist);
+  gap: 1.5rem;
+}
+
+.header-meta {
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--rust-dim);
+  opacity: 0.75;
+  line-height: 1.9;
+}
+.header-meta-left  { text-align: left;  }
+.header-meta-right { text-align: right; }
+
+.header-meta .autoras {
+  display: block;
+  margin-top: 0.5rem;
+  font-style: italic;
+  text-transform: none;
+  letter-spacing: 0.06em;
+  font-size: 0.78rem;
+  opacity: 0.9;
+  color: var(--rust);
+}
+
+h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  line-height: 1.05;
+  text-align: center;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+h1 em {
+  display: block;
+  font-style: italic;
+  font-size: 0.65em;
+  color: var(--rust);
+  letter-spacing: 0.04em;
+  margin-top: 0.3rem;
+}
+
+/* ── Rule divider ────────────────────────────────────────── */
+.rule {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin: 0 5vw;
+  padding: 1.5rem 0;
+  color: var(--gold);
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+}
+.rule::before, .rule::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--mist), transparent);
+}
+
+/* ── Canvas wrapper ──────────────────────────────────────── */
+.canvas-wrapper {
+  margin: 0 5vw 0;
+  position: relative;
+  border: 1px solid var(--mist);
+  border-radius: 4px;
+  overflow: visible;
+  box-shadow:
+    0 4px 30px rgba(80, 30, 5, 0.08),
+    0 1px 4px  rgba(80, 30, 5, 0.06),
+    inset 0 0 0 1px rgba(255,255,255,0.5);
+}
+
+/* Corner accents */
+.canvas-wrapper::before,
+.canvas-wrapper::after {
+  content: '';
+  position: absolute;
+  width: 22px; height: 22px;
+  border-color: var(--rust);
+  border-style: solid;
+  z-index: 10;
+  pointer-events: none;
+  opacity: 0.5;
+}
+.canvas-wrapper::before { top: 0; left: 0; border-width: 1.5px 0 0 1.5px; }
+.canvas-wrapper::after  { bottom: 0; right: 0; border-width: 0 1.5px 1.5px 0; }
+
+#webGL {
+  width: 100%;
+  height: var(--canvas-h);
+  display: block;
+  background: #1a0a03;
+  border-radius: 4px;
+}
+#webGL canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+/* ── Caption ─────────────────────────────────────────────── */
+.canvas-caption {
+  margin: 0 5vw;
+  padding: 0.9rem 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.canvas-caption-text {
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--rust-dim);
+  opacity: 0.7;
+}
+.canvas-caption-hint {
+  font-size: 0.72rem;
+  font-style: italic;
+  color: var(--ink);
+  opacity: 0.45;
+}
+
+/* ── Techniques section ──────────────────────────────────── */
+.techniques {
+  margin: 4rem 5vw 0;
+  padding-bottom: 5rem;
+}
+
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 300;
+  font-size: 1.1rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--rust);
+  margin-bottom: 2.8rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.section-title::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, var(--mist), transparent);
+}
+
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2.5rem 3rem;
+}
+
+.tech-card {
+  position: relative;
+  padding-left: 1.4rem;
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.tech-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.tech-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0.55em;
+  width: 3px; height: calc(100% - 0.55em);
+  background: linear-gradient(to bottom, var(--rust), transparent);
+  border-radius: 2px;
+}
+
+.tech-card-label {
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--rust);
+  margin-bottom: 0.5rem;
+  font-weight: 400;
+}
+
+.tech-card h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  font-size: 1.15rem;
+  color: var(--ink);
+  margin-bottom: 0.6rem;
+  line-height: 1.25;
+}
+
+.tech-card p {
+  font-size: 0.84rem;
+  color: var(--ink);
+  opacity: 0.68;
+  line-height: 1.8;
+}
+
+/* ── Inspiration section ─────────────────────────────────── */
+.inspiration {
+  margin: 0 5vw 0;
+  padding-bottom: 1rem;
+}
+
+.inspiration-layout {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+@media (max-width: 680px) {
+  .inspiration-layout { grid-template-columns: 1fr; }
+}
+
+.inspiration-img-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.inspiration-img-wrap img {
+  width: 100%;
+  height: auto;
+  border-radius: 3px;
+  border: 1px solid var(--mist);
+  box-shadow: 0 4px 20px rgba(80,30,5,0.10);
+  display: block;
+}
+
+.inspiration-caption {
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--rust-dim);
+  opacity: 0.6;
+  text-align: center;
+}
+
+.inspiration-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  padding-top: 0.3rem;
+}
+
+.inspiration-text p {
+  font-size: 0.9rem;
+  color: var(--ink);
+  opacity: 0.72;
+  line-height: 1.85;
+}
+
+.inspiration-text code {
+  font-family: 'Courier New', monospace;
+  font-size: 0.82em;
+  background: rgba(184,78,26,0.08);
+  color: var(--rust);
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+}
+
+/* ── Footer ──────────────────────────────────────────────── */
+footer {
+  border-top: 1px solid var(--mist);
+  padding: 1.5rem 5vw;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink);
+  opacity: 0.5;
+  gap: 1rem;
+}
+
+.footer-autoras {
+  text-align: center;
+  font-style: italic;
+  text-transform: none;
+  letter-spacing: 0.07em;
+  font-size: 0.72rem;
+  opacity: 1;
+}
+.footer-autoras span {
+  display: inline-block;
+  margin: 0 0.4rem;
+}
+.footer-autoras span + span::before {
+  content: '·';
+  margin-right: 0.8rem;
+  opacity: 0.4;
+}
+
+.footer-right { text-align: right; }
+
+/* ── Loading overlay ─────────────────────────────────────── */
+#loading-overlay {
+  position: absolute; inset: 0;
+  background: #1a0a03;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  transition: opacity 0.8s ease;
+  pointer-events: none;
+}
+#loading-overlay.hidden { opacity: 0; }
+
+.loading-spinner {
+  width: 32px; height: 32px;
+  border: 1.5px solid rgba(255,200,120,0.2);
+  border-top-color: rgba(255,200,120,0.7);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1.2rem;
+}
+.loading-text {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255,200,120,0.55);
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }

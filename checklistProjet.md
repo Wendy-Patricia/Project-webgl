@@ -13,9 +13,9 @@
 - [x] Texture classique -> dans l'eau
 - [x] Texture avec transparence -> les nuages
 - [x] Sprites -> Pour les nuages( avec la Texture avec transparence )
-- [ ] Environment map -> mettre un cylindre metalique dans un des bateaux que va fair la reflexion
+- [x] Environment map -> mettre un cylindre metalique dans un des bateaux que va fair la reflexion
 - [ ] Skybox -> ciel
-- [ ] specular maps ->
-- [ ] normal maps -> dans les bateaux
+- [x] specular maps ->
+- [x] normal maps -> dans les bateaux
 - [x] Interaction par GUI -> deplacer les bateaux
 - [x] Animation -> nuages

@@ -5,10 +5,11 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { Water }         from 'https://threejs.org/examples/jsm/objects/Water.js';
 import { Sky }           from 'three/addons/objects/Sky.js';
 import { Reflector }     from 'three/addons/objects/Reflector.js';
-import { addBoats, boatMaterials, boatObjects } from './bateaux.js';  //importation depuis bateaux.js
+import { addBoats, boatMaterials, boatObjects, buoyMesh } from './bateaux.js';  //importation depuis bateaux.js
 
 // ─── Globais ────────────────────────────────────────────────
 let camera, renderer, cameraControls, clock, water, sun, mirror;
+let skyEnvMap = null;   // THREE.Texture PMREM du Sky — injectée dans la bouée
 let scene = new THREE.Scene();
 clock = new THREE.Clock();
 
@@ -301,6 +302,15 @@ function createSun() {
     u['sunPosition'].value.copy(sunVec);
 
     if (water) water.material.uniforms['sunDirection'].value.copy(sunVec).normalize();
+
+    // ── PMREM — envMap fidèle au Sky pour les matériaux PBR ────
+    // Approche canonique Three.js : on compile le Sky dans un
+    // PMREMGenerator pour obtenir une texture HDR du coucher de soleil.
+    // Cette texture sera injectée dans envMap de la bouée métallique.
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    skyEnvMap = pmrem.fromScene(sky).texture;
+    pmrem.dispose();
+    // ────────────────────────────────────────────────────────────
 
     sun = new THREE.DirectionalLight(0xff4400, 2);
     sun.position.copy(sunVec).multiplyScalar(1000);
@@ -623,7 +633,7 @@ function fillScene() {
     buildMirror();
     createSun();
     
-    addBoats(scene);
+    addBoats(scene, skyEnvMap);
         
 
     createClouds();
@@ -658,11 +668,28 @@ function init() {
     cameraControls.target.set(0, 50, 0);
     cameraControls.minAzimuthAngle = -Infinity;
     cameraControls.maxAzimuthAngle =  Infinity;
-    cameraControls.minPolarAngle   = Math.PI / 2.5;
-    cameraControls.maxPolarAngle   = Math.PI / 1.9;
+    // minPolarAngle : vue du dessus (0 = zénith, on limite à ~20°)
+    cameraControls.minPolarAngle   = Math.PI / 9;
+    // maxPolarAngle : ne jamais dépasser l'horizon (< 90°)
+    // Math.PI / 2 = 90° exactement, on recule légèrement à ~80°
+    cameraControls.maxPolarAngle   = Math.PI / 2.25;
     cameraControls.minDistance     = 200;
     cameraControls.maxDistance     = 2500;
     cameraControls.enablePan       = false;
+
+    // Garde-fou supplémentaire : empêche la caméra de passer
+    // sous la surface de l'eau (Y ≤ 10) quelle que soit
+    // la manipulation (pinch, scroll rapide, etc.)
+    cameraControls.addEventListener('change', () => {
+        if (camera.position.y < 10) {
+            camera.position.y = 10;
+        }
+        // Le target ne doit pas non plus s'enfoncer sous l'eau
+        if (cameraControls.target.y < 5) {
+            cameraControls.target.y = 5;
+        }
+    });
+
     cameraControls.update();
 }
 
@@ -801,6 +828,24 @@ function animate() {
         boat.rotation.x = Math.sin(time * 0.5 + p * 0.7) * 0.015;
     });
     // ────────────────────────────────────────────────────────
+
+    // ── Flottement + pulsação da lanterna da boia ───────────────
+    if (buoyMesh) {
+        const baseY = -40 * 3;
+        buoyMesh.position.y = baseY + Math.sin(time * 0.55 + 2.3) * 12;
+        buoyMesh.rotation.z = Math.sin(time * 0.38 + 1.1) * 0.03;
+        buoyMesh.rotation.x = Math.sin(time * 0.30 + 0.7) * 0.02;
+
+        // Lanterna pisca em ciclos de 3s (0.5s ON, 2.5s OFF)
+        if (buoyMesh.userData.lanternMat) {
+            const cycle  = time % 3.0;
+            const pulse  = cycle < 0.5
+                ? Math.sin((cycle / 0.5) * Math.PI)   // fade in/out suave
+                : 0;
+            buoyMesh.userData.lanternMat.emissiveIntensity = 0.3 + pulse * 2.5;
+        }
+    }
+    // ────────────────────────────────────────────────────────────
 
     cameraControls.update();
     renderer.render(scene, camera);

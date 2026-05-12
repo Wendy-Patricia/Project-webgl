@@ -3,21 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sc&egrave;ne Maritime &mdash; Three.js</title>
+  <title>Scène Maritime — Three.js</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="page-wrap">
 
-<!-- __ Header ________________________________________________ -->
 <header>
   <div class="header-meta header-meta-left">
-    Travaux Pratiques &mdash; Mod&eacute;lisation 3D<br>
-    Three.js &middot; WebGL
-    <span class="autoras">
+    Modélisation 3D · IUT Saint-Dié<br>
+    WebGL · Three.js
+    <span class="auteures">
       Eunice Ligeiro<br>
       Wendy Mechisso<br>
       Aingo Razakanirina
@@ -25,125 +24,216 @@
   </div>
 
   <h1>
-    Sc&egrave;ne Maritime
-    <em>Coucher de soleil sur l&rsquo;Atlantique</em>
+    Scène Maritime
+    <em>Coucher de soleil sur l'Atlantique</em>
   </h1>
 
   <div class="header-meta header-meta-right">
-    TP 1 &mdash; Mod&eacute;lisation<br>
-    IUT &middot; 2024&ndash;2025
+    Projet Modélisation 3D<br>
+    2025 · 2026
   </div>
 </header>
 
-<div class="rule">Rendu interactif</div>
+<div class="rule">Rendu interactif temps réel</div>
 
-<!-- __ Canvas _______________________________________________ -->
+
 <div class="canvas-wrapper">
   <div id="loading-overlay">
     <div class="loading-spinner"></div>
-    <span class="loading-text">Chargement de la sc&egrave;ne&hellip;</span>
+    <span class="loading-text">Chargement de la scène…</span>
   </div>
   <div id="webGL"></div>
 </div>
 
 <div class="canvas-caption">
-  <span class="canvas-caption-text">Three.js &middot; WebGL &middot; Temps r&eacute;el</span>
-  <span class="canvas-caption-hint">Cliquez et glissez pour orbiter &mdash; Molette pour zoomer</span>
+  <span class="canvas-caption-text">Three.js · WebGL · Rendu temps réel</span>
+  <span class="canvas-caption-hint">Cliquez et glissez pour orbiter · Molette pour zoomer</span>
 </div>
 
-<div class="rule">Inspiration &amp; Techniques</div>
+<div class="rule">Guide d'utilisation</div>
 
-<!-- __ Inspiration __________________________________________ -->
+
+<section class="guide">
+  <h2 class="section-title">Comment interagir avec la scène</h2>
+  <div class="guide-grid">
+
+    <div class="guide-card">
+      <div class="guide-icon">🖱️</div>
+      <h4>Tourner autour de la scène</h4>
+      <p>Cliquez sur la scène et faites glisser la souris pour changer de point de vue. Vous pouvez observer les bateaux sous tous les angles.</p>
+    </div>
+
+    <div class="guide-card">
+      <div class="guide-icon">🔍</div>
+      <h4>Se rapprocher ou s'éloigner</h4>
+      <p>Utilisez la molette de la souris pour vous approcher des bateaux ou reculer pour avoir une vue d'ensemble de la scène.</p>
+    </div>
+
+    <div class="guide-card">
+      <div class="guide-icon">⛵</div>
+      <h4>Déplacer les bateaux</h4>
+      <p>Cliquez directement sur un bateau et faites-le glisser pour le repositionner librement sur l'eau.</p>
+    </div>
+
+    <div class="guide-card">
+      <div class="guide-icon">↺</div>
+      <h4>Remettre les bateaux en place</h4>
+      <p>Le panneau en haut à droite contient un bouton Reset pour chaque bateau. Cliquez dessus pour retrouver la disposition d'origine.</p>
+    </div>
+
+    <div class="guide-card">
+      <div class="guide-icon">🌫️</div>
+      <h4>Ajouter du brouillard</h4>
+      <p>Le curseur Brouillard dans le panneau permet d'épaissir ou de dissiper la brume. Glissez vers la droite pour envelopper la scène dans la brume.</p>
+    </div>
+
+    <div class="guide-card">
+      <div class="guide-icon">🪟</div>
+      <h4>Rendre les bateaux transparents</h4>
+      <p>Deux curseurs permettent de jouer avec la transparence des coques et des voiles séparément. Amenez un curseur à zéro pour les faire disparaître progressivement.</p>
+    </div>
+
+  </div>
+</section>
+
+<div class="rule">Inspiration et contexte</div>
+
+
 <section class="inspiration">
-  <h2 class="section-title">Peinture d&rsquo;inspiration</h2>
+  <h2 class="section-title">Peinture d'inspiration</h2>
   <div class="inspiration-layout">
     <div class="inspiration-img-wrap">
-      <img src="img.png" alt="Peinture d'inspiration &mdash; voiliers au coucher de soleil" />
-      <div class="inspiration-caption">
-        Voiliers au coucher de soleil &mdash; aquarelle de r&eacute;f&eacute;rence
-      </div>
+      <img src="img.png" alt="Voiliers au coucher de soleil — peinture de référence" />
+      <div class="inspiration-caption">Aquarelle de référence · voiliers au coucher de soleil</div>
     </div>
     <div class="inspiration-text">
-      <p>Cette sc&egrave;ne 3D s&rsquo;inspire d&rsquo;une aquarelle repr&eacute;sentant trois voiliers naviguant vers un coucher de soleil flamboyant. Les silhouettes sombres des b&acirc;teaux se d&eacute;tachent sur un ciel aux teintes dor&eacute;es et oranges, refl&eacute;t&eacute;es dans une mer bleue profonde.</p>
-      <p>Nous avons cherch&eacute; &agrave; reproduire cette atmosph&egrave;re lumineuse en Three.js en travaillant sur plusieurs aspects visuels cl&eacute;s : la couleur chaude du ciel via le shader <code>Sky</code>, le reflet de la sc&egrave;ne dans l&rsquo;eau gr&acirc;ce au <code>Reflector</code>, et l&rsquo;orientation des voiliers directement tourn&eacute;s vers l&rsquo;horizon embras&eacute;, comme dans la peinture originale.</p>
-      <p>Le brouillard volumétrique double couche et les nuages en sprites renforcent la profondeur atmosphérique caractéristique des peintures &agrave; l&rsquo;aquarelle, o&ugrave; les lointains se fondent dans la brume et la lumi&egrave;re.</p>
+      <p>Cette scène 3D s'inspire d'une aquarelle représentant trois voiliers naviguant vers un coucher de soleil flamboyant. Les silhouettes sombres des embarcations se découpent sur un ciel doré et orangé, intégralement reflété dans une mer bleu profond.</p>
+      <p>L'objectif était de reproduire cette atmosphère lumineuse et contemplative en WebGL, en travaillant la couleur chaude du ciel via le shader <code>Sky</code> de Three.js, le reflet de la scène dans l'eau grâce au <code>Reflector</code>, et l'orientation des voiliers vers l'horizon embrasé, exactement comme dans la peinture.</p>
+      <p>Le brouillard volumétrique à double couche et les nuages en sprites renforcent la profondeur atmosphérique caractéristique de l'aquarelle originale, où les lointains se fondent dans la brume et la lumière dorée.</p>
     </div>
   </div>
 </section>
 
-<div class="rule">Techniques impl&eacute;ment&eacute;es</div>
+<div class="rule">Techniques implémentées</div>
 
-<!-- __ Techniques ___________________________________________ -->
+
 <section class="techniques">
   <h2 class="section-title">Documentation technique</h2>
-
   <div class="tech-grid">
 
     <div class="tech-card">
-      <div class="tech-card-label">G&eacute;om&eacute;trie &amp; Mat&eacute;riaux</div>
-      <h3>Soleil &amp; Ciel atmosph&eacute;rique</h3>
-      <p>Le soleil est simul&eacute; via la classe <code>Sky</code> de Three.js, qui r&eacute;sout les &eacute;quations de diffusion de Rayleigh et de Mie en temps r&eacute;el. Les param&egrave;tres de turbidit&eacute;, d&rsquo;&eacute;l&eacute;vation et d&rsquo;azimut d&eacute;finissent la couleur ambiante de toute la sc&egrave;ne &mdash; ici r&eacute;gl&eacute;s pour un coucher de soleil &agrave; 2&deg; d&rsquo;&eacute;l&eacute;vation avec une teinte orange&eacute;e chaude.</p>
+      <div class="tech-card-label">Géométrie</div>
+      <h3>Soleil et ciel atmosphérique</h3>
+      <p>Le ciel est généré par la classe <code>Sky</code> de Three.js, qui modélise la diffusion de Rayleigh (lumière bleue diffusée) et de Mie (halo autour du soleil). Les paramètres de turbidité (10), d'élévation (2°) et d'azimut (0°) produisent un coucher de soleil orange intense. La géométrie du soleil est implicite dans le shader, aucun mesh n'est nécessaire.</p>
     </div>
 
     <div class="tech-card">
-      <div class="tech-card-label">&Eacute;clairage</div>
-      <h3>Lumi&egrave;re directionnelle &amp; Ombres port&eacute;es</h3>
-      <p>Une <code>DirectionalLight</code> positionn&eacute;e selon le vecteur solaire (<code>sunPosition</code> du Sky) simule l&rsquo;astre. Les ombres sont activ&eacute;es via <code>PCFSoftShadowMap</code> avec une shadow map de 2048&times;2048 pixels, projetant des ombres douces sur la surface de l&rsquo;eau depuis les coques des bateaux.</p>
+      <div class="tech-card-label">Éclairage et ombres portées</div>
+      <h3>Lumière directionnelle PCF</h3>
+      <p>Une <code>DirectionalLight</code> à 0xff4400 est alignée sur le vecteur solaire issu du shader <code>Sky</code>. Les ombres sont calculées en <code>PCFSoftShadowMap</code> avec une shadow map de 2048 × 2048 px, projetant des ombres douces des coques et mâts sur la surface de l'eau.</p>
     </div>
 
     <div class="tech-card">
-      <div class="tech-card-label">Textures</div>
-      <h3>Normal maps &amp; Specular maps</h3>
-      <p>Les coques et m&acirc;ts des bateaux utilisent une normal map pour simuler le relief des planches de bois sans augmenter la g&eacute;om&eacute;trie. Une specular map contr&ocirc;le l&rsquo;intensit&eacute; du reflet pixel par pixel &mdash; les ar&ecirc;tes mouill&eacute;es brillent davantage que le bois brut mat. La voile applique la m&ecirc;me normal map avec une intensit&eacute; r&eacute;duite (0.25) pour le grain du tissu.</p>
+      <div class="tech-card-label">Position de caméra</div>
+      <h3>Point de vue aérien et OrbitControls</h3>
+      <p>La caméra est placée en <code>(-400, 300, 1800)</code>, offrant un point de vue plongeant qui révèle simultanément la surface de l'eau, les silhouettes des bateaux et l'horizon lumineux. Les <code>OrbitControls</code> limitent l'angle polaire entre 20° et 80° pour empêcher la caméra de passer sous l'eau.</p>
+    </div>
+
+    <div class="tech-card">
+      <div class="tech-card-label">Texture classique</div>
+      <h3>Eau animée et normal map</h3>
+      <p>La surface de l'eau utilise la classe <code>Water</code> de Three.js avec une texture de normales d'ondulation animée en temps réel. La distorsion est réglée à 3.7 pour des vaguelettes visibles sans être excessives.</p>
+    </div>
+
+    <div class="tech-card">
+      <div class="tech-card-label">Effet miroir</div>
+      <h3>Reflector et distorsion GLSL</h3>
+      <p>Un <code>Reflector</code> plan placé à Y = 0 rend la scène depuis une caméra virtuelle symétrique. Un shader GLSL personnalisé distord les UV avec les normales d'ondulation, applique un effet de fresnel sur les bords, et mélange le reflet avec la teinte sombre de l'eau.</p>
     </div>
 
     <div class="tech-card">
       <div class="tech-card-label">Transparence</div>
-      <h3>Opacit&eacute; &amp; Contr&ocirc;le en temps r&eacute;el</h3>
-      <p>Les mat&eacute;riaux <code>MeshPhongMaterial</code> des bateaux sont d&eacute;clar&eacute;s avec <code>transparent: true</code>. Leur propri&eacute;t&eacute; <code>opacity</code> est expos&eacute;e via des sliders dans le panneau de contr&ocirc;le, permettant de modifier la transparence de la coque, du m&acirc;t et de la voile ind&eacute;pendamment, sans recompilation des shaders.</p>
+      <h3>Opacité dynamique en temps réel</h3>
+      <p>Les matériaux des bateaux sont configurés avec <code>transparent: true</code>. Leur propriété <code>opacity</code> est liée aux sliders du panneau de contrôle via des event listeners, modifiant les matériaux partagés instantanément sans recompilation de shader.</p>
     </div>
 
     <div class="tech-card">
-      <div class="tech-card-label">Reflets</div>
-      <h3>Effet miroir &amp; Environment map</h3>
-      <p>L&rsquo;eau combine deux syst&egrave;mes&nbsp;: un <code>Reflector</code> avec shader GLSL custom (distorsion sinuso&iuml;dale + fresnel simplifi&eacute;) pour les r&eacute;flexions en temps r&eacute;el, et une texture <code>Water</code> anim&eacute;e. La bou&eacute;e utilise une environment map g&eacute;n&eacute;r&eacute;e via <code>PMREMGenerator.fromScene()</code> depuis le Sky pour des reflets m&eacute;talliques physiquement corrects.</p>
+      <div class="tech-card-label">Normal maps et Specular maps</div>
+      <h3>Relief du bois et brillant contrôlé</h3>
+      <p>Les coques, mâts et voiles utilisent une <code>normalMap</code> pour simuler le relief des planches de bois sans augmenter la géométrie. Une <code>specularMap</code> identique contrôle le brillant pixel par pixel, les zones humides captant davantage la lumière orangée du couchant.</p>
     </div>
 
     <div class="tech-card">
-      <div class="tech-card-label">Sprites &amp; Animation</div>
-      <h3>Nuages &amp; Brouillard volum&eacute;trique</h3>
-      <p>Cinquante groupes de sprites utilisent une texture PNG avec transparence alpha pour les nuages, anim&eacute;s en translation avec wrap-around et balancement vertical sinuso&iuml;dal. Le brouillard est double couche &mdash; un syst&egrave;me de particules GLSL (<em>near</em> et <em>far</em>) superpos&eacute; &agrave; un <code>FogExp2</code> natif de Three.js &mdash; dont la densit&eacute; globale est contr&ocirc;l&eacute;e par slider.</p>
+      <div class="tech-card-label">Environment map</div>
+      <h3>Bouée métallique et PMREMGenerator</h3>
+      <p>Une bouée de navigation (corps cylindrique, mât et lanterne) est placée entre les bateaux. Son matériau utilise un environment map généré via <code>PMREMGenerator.fromScene(sky)</code>, la technique officielle Three.js r152+ pour des reflets métalliques corrects sans caméra cube.</p>
     </div>
 
     <div class="tech-card">
-      <div class="tech-card-label">Interaction</div>
-      <h3>Cam&eacute;ra &amp; Drag &amp; drop</h3>
-      <p>Les <code>OrbitControls</code> contraignent la cam&eacute;ra entre un angle polaire minimum (20&deg;) et l&rsquo;horizon (&asymp;80&deg;), emp&ecirc;chant de passer sous l&rsquo;eau. Un syst&egrave;me de raycasting d&eacute;tecte le bateau sous la souris et projette la position de drag sur un plan horizontal <code>Y = 50</code>, offrant un d&eacute;placement intuitif des embarcations en 3D.</p>
+      <div class="tech-card-label">Sprites et texture transparente</div>
+      <h3>Nuages animés</h3>
+      <p>50 groupes de <code>Sprite</code> utilisent une texture PNG transparente chargée dans un <code>SpriteMaterial</code>. Chaque groupe dérive horizontalement à vitesse propre avec wrap-around et oscille verticalement sur une sinusoïde phasée, donnant l'impression d'un ciel vivant.</p>
     </div>
 
     <div class="tech-card">
-      <div class="tech-card-label">Rendu</div>
-      <h3>Position de cam&eacute;ra &amp; Point de vue</h3>
-      <p>La cam&eacute;ra est positionn&eacute;e en hauteur avec un angle plongeant depuis <code>(-400, 300, 1800)</code>, simulant un point de vue a&eacute;rien qui r&eacute;v&egrave;le simultan&eacute;ment la surface de l&rsquo;eau, les bateaux et l&rsquo;horizon embras&eacute;. Ce placement met en valeur &agrave; la fois l&rsquo;effet miroir de l&rsquo;eau et la profondeur atmosph&eacute;rique du ciel.</p>
+      <div class="tech-card-label">Brouillard volumétrique</div>
+      <h3>Système de particules GLSL double couche</h3>
+      <p>Deux systèmes de particules avec shader custom : une couche proche (3 500 particules) pour l'immersion immédiate, et une couche lointaine (4 500 particules) pour la brume d'horizon. La densité est ajustable via un uniform partagé, complété par un <code>FogExp2</code> natif.</p>
+    </div>
+
+    <div class="tech-card">
+      <div class="tech-card-label">Interaction GUI</div>
+      <h3>Drag and Drop et panneau de contrôle</h3>
+      <p>Un <code>Raycaster</code> détecte le bateau survolé et projette le drag sur un plan horizontal Y = 50. Le panneau de contrôle (position: fixed, backdrop-filter) est entièrement généré en JavaScript avec des sections accordéon, des sliders bicolores et des boutons de reset par bateau.</p>
+    </div>
+
+    <div class="tech-card">
+      <div class="tech-card-label">Animation</div>
+      <h3>Nuages et tangage des bateaux</h3>
+      <p>Les bateaux subissent un tangage et un roulis sinusoïdaux phasés, chaque bateau ayant un <code>wavePhase</code> unique simulant la houle. Les nuages dérivent avec une vitesse et une direction propres, multipliées par le delta time pour un mouvement indépendant du framerate.</p>
     </div>
 
   </div>
 </section>
 
-<!-- __ Footer _______________________________________________ -->
+
+<div class="rule">Équipe</div>
+
+<section class="team-section">
+  <h2 class="section-title">Auteures du projet</h2>
+  <div class="team-grid">
+
+    <div class="team-card">
+      <div class="team-initial">EL</div>
+      <div class="team-name">Eunice Ligeiro</div>
+    </div>
+
+    <div class="team-card">
+      <div class="team-initial">WM</div>
+      <div class="team-name">Wendy Mechisso</div>
+    </div>
+
+    <div class="team-card">
+      <div class="team-initial">AR</div>
+      <div class="team-name">Aingo Razakanirina</div>
+    </div>
+
+  </div>
+</section>
+
 <footer>
-  <span>TP 1 &mdash; Mod&eacute;lisation 3D</span>
+  <span>IUT Saint-Dié · 2025–2026</span>
   <div class="footer-autoras">
     <span>Eunice Ligeiro</span>
     <span>Wendy Mechisso</span>
     <span>Aingo Razakanirina</span>
   </div>
-  <span class="footer-right">Three.js r<span id="three-version">???</span> &middot; WebGL</span>
+  <span class="footer-right">Three.js · WebGL</span>
 </footer>
 
-</div><!-- /page-wrap -->
+</div>
 
-<!-- __ Scripts ______________________________________________ -->
+
 <script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
 <script type="importmap">
 {
@@ -154,12 +244,26 @@
 }
 </script>
 
-<script type="module">
-  import * as THREE from 'three';
-  document.getElementById('three-version').textContent = THREE.REVISION;
-</script>
-
 <script type="module" src="painture.js"></script>
+
+<script>
+  const webglDiv = document.getElementById('webGL');
+  const canvasObserver = new MutationObserver(() => {
+    const canvas = webglDiv.querySelector('canvas');
+    if (!canvas) return;
+    canvasObserver.disconnect();
+
+    const ro = new ResizeObserver(() => {
+      const W = webglDiv.clientWidth;
+      const H = webglDiv.clientHeight;
+      if (W === 0 || H === 0) return;
+      canvas.style.width  = W + 'px';
+      canvas.style.height = H + 'px';
+    });
+    ro.observe(webglDiv);
+  });
+  canvasObserver.observe(webglDiv, { childList: true });
+</script>
 
 <script>
   const overlay = document.getElementById('loading-overlay');
@@ -175,16 +279,16 @@
   });
   observer.observe(document.getElementById('webGL'), { childList: true });
 
-  const cards = document.querySelectorAll('.tech-card');
+  const revealEls = document.querySelectorAll('.tech-card, .guide-card, .team-card');
   const io = new IntersectionObserver((entries) => {
     entries.forEach((e, i) => {
       if (e.isIntersecting) {
-        setTimeout(() => e.target.classList.add('visible'), i * 80);
+        setTimeout(() => e.target.classList.add('visible'), i * 70);
         io.unobserve(e.target);
       }
     });
-  }, { threshold: 0.12 });
-  cards.forEach(c => io.observe(c));
+  }, { threshold: 0.10 });
+  revealEls.forEach(c => io.observe(c));
 </script>
 
 </body>

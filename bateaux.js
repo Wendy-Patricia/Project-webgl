@@ -4,33 +4,20 @@ import * as THREE from 'three';
 
 const _loader = new THREE.TextureLoader();
 
-// ── Texture de couleur (bois) ────────────────────────────────
+// Texture de couleur (bois) 
 const colorTex = _loader.load('textures/texture.jpg', t => {
   t.wrapS = t.wrapT = THREE.RepeatWrapping;
 });
 
-// ── Normal map — relief des planches de bois ─────────────────
-// Appliquée sur la coque ET le mât (même bois) ET la voile
-// (tissu légèrement texturé)
+//  Normal map — relief des planches de bois
 const normalTex = _loader.load('textures/textureMap.png', t => {
   t.wrapS = t.wrapT = THREE.RepeatWrapping;
 });
 
-// ── Specular map — contrôle le brillant pixel par pixel ──────
-// Zones claires → fort reflet (bois verni, arêtes mouillées)
-// Zones sombres → mat (bois brut, ombres des planches)
-// On réutilise la même image que le normal map en l'encodant
-// différemment : Three.js l'interprète comme une intensité
-// de spéculaire en niveaux de gris.
-// Si tu disposes d'une vraie specular map dédiée, remplace
-// 'textures/textureMap.png' par son chemin ici.
+// Specular map — contrôle le brillant pixel par pixel 
 const specularTex = _loader.load('textures/textureMap.png', t => {
   t.wrapS = t.wrapT = THREE.RepeatWrapping;
 });
-
-// ── Normal map légère pour la voile (tissu) ──────────────────
-// On réutilise normalTex avec une intensité réduite (0.3, 0.3)
-// pour simuler le grain du tissu sans paraître ligneux.
 
 function createBoat(x, y, z, scale) {
   const boat = new THREE.Group();
@@ -42,46 +29,37 @@ function createBoat(x, y, z, scale) {
   hullShape.lineTo(-0.9, -0.6);
   hullShape.lineTo(-1.4, -0.2);
 
-  // ── Matériaux exposés pour le contrôle de transparence ──
-
-  // COQUE — bois verni : normal map forte + specular map
+  // COQUE — bois verni
   const hullMat = new THREE.MeshPhongMaterial({
     color: 0x8B4513,
     map: colorTex,
-    // Normal map : relief des planches (intensité pleine)
     normalMap: normalTex,
     normalScale: new THREE.Vector2(1.0, 1.0),
-    // Specular map : zones brillantes (arêtes, bois mouillé)
     specularMap: specularTex,
-    specular: 0x552211, // teinte chaude coucher de soleil
-    shininess: 40, // monté pour que la spec map soit visible
+    specular: 0x552211,
+    shininess: 40,
     transparent: true,
     opacity: 1.0,
   });
 
-  // MÂT — bois huilé : normal map douce + specular map
+  // MÂT — bois plus sombre et brillant
   const mastMat = new THREE.MeshPhongMaterial({
     color: 0x8B4513,
-    // Normal map : même bois, intensité légèrement réduite
     normalMap: normalTex,
     normalScale: new THREE.Vector2(0.6, 0.6),
-    // Specular map : bois huilé → reflet concentré sur les arêtes
     specularMap: specularTex,
-    specular: 0x664422, // reflet chaud, bois huilé
+    specular: 0x664422,
     shininess: 100,
     transparent: true,
     opacity: 1.0,
   });
 
-  // VOILE — tissu blanc : normal map très douce, pas de specular map
+  // VOILE — tissu blanc
   const sailMat = new THREE.MeshPhongMaterial({
     color: 0xffffff,
-    // Normal map : grain du tissu (intensité faible pour ne pas
-    // paraître boisé)
     normalMap: normalTex,
     normalScale: new THREE.Vector2(0.25, 0.25),
-    // Pas de specularMap : le tissu a un reflet diffus uniforme
-    specular: 0x888888, // reflet gris doux
+    specular: 0x888888,
     shininess: 30,
     transparent: true,
     opacity: 0.9,
@@ -122,7 +100,6 @@ function createBoat(x, y, z, scale) {
 
   boat.scale.set(scale, scale, scale);
   boat.position.set(x, y, z);
-  // Rotação de 180° para os barcos ficarem voltados para o sol
   boat.rotation.y = Math.PI;
 
   return { boat, hullMat, mastMat, sailMat };
@@ -165,7 +142,8 @@ function createBeacon(scene, envMap) {
     metalness: 0.2,
     roughness: 0.55,
   });
-
+  
+  //Matériau de la lanterne avec émission pour simuler la lumière
   const lanternMat = new THREE.MeshStandardMaterial({
     color: 0xffdd44,
     emissive: 0xff9900,
@@ -325,12 +303,14 @@ export function addBoats(scene, envMap) {
   boatMaterials = [];
   boatObjects = [];
 
+  //Positions des bateaux (x, y, z), échelle et label
   const defs = [
-    { x: -90, y: 50, z: 800, scale: 100, label: 'Bateau 1' },
-    { x: 305, y: 50, z: 956, scale: 100, label: 'Bateau 2' },
-    { x: 60, y: 50, z: 30, scale: 100, label: 'Bateau 3' },
+    { x: -120, y: 50, z: -200, scale: 100, label: 'Bateau 1' },
+    { x:  300, y: 50, z:  200, scale: 100, label: 'Bateau 2' },
+    { x:  300, y: 50, z: -500, scale: 100, label: 'Bateau 3' },
   ];
-
+   
+  // Création des bateaux à partir des définitions
   defs.forEach(({ x, y, z, scale, label }, idx) => {
     const b = createBoat(x, y, z, scale);
     scene.add(b.boat);

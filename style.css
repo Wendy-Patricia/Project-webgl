@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════════
    style.css — Scène Maritime · Three.js
-   Autoras: Eunice Ligeiro, Wendy Mechisso, Aingo Razakanirina
+   Auteures: Eunice Ligeiro, Wendy Mechisso, Aingo Razakanirina
    ═══════════════════════════════════════════════════════════ */
 
 /* ── Variables ───────────────────────────────────────────── */
@@ -11,13 +11,13 @@
   --rust-dim: #7a3410;
   --gold:     #c9923e;
   --mist:     #d4c4b0;
-  --canvas-h: 520px;
+  --canvas-h: 560px;
 }
 
-/* ── Reset ───────────────────────────────────────────────── */
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* ── Page ────────────────────────────────────────────────── */
+
 html { scroll-behavior: smooth; }
 
 body {
@@ -28,12 +28,11 @@ body {
   line-height: 1.75;
 }
 
-/* Wrapper que contém o scroll horizontal sem afetar position:fixed */
 .page-wrap {
   overflow-x: hidden;
 }
 
-/* ── Grain overlay ───────────────────────────────────────── */
+
 body::before {
   content: '';
   position: fixed; inset: 0;
@@ -43,7 +42,7 @@ body::before {
   opacity: 0.5;
 }
 
-/* ── Header ──────────────────────────────────────────────── */
+
 header {
   display: grid;
   grid-template-columns: 1fr auto 1fr;
@@ -64,7 +63,7 @@ header {
 .header-meta-left  { text-align: left;  }
 .header-meta-right { text-align: right; }
 
-.header-meta .autoras {
+.header-meta .auteures {
   display: block;
   margin-top: 0.5rem;
   font-style: italic;
@@ -93,7 +92,7 @@ h1 em {
   margin-top: 0.3rem;
 }
 
-/* ── Rule divider ────────────────────────────────────────── */
+
 .rule {
   display: flex;
   align-items: center;
@@ -112,7 +111,6 @@ h1 em {
   background: linear-gradient(to right, transparent, var(--mist), transparent);
 }
 
-/* ── Canvas wrapper ──────────────────────────────────────── */
 .canvas-wrapper {
   margin: 0 5vw 0;
   position: relative;
@@ -125,7 +123,6 @@ h1 em {
     inset 0 0 0 1px rgba(255,255,255,0.5);
 }
 
-/* Corner accents */
 .canvas-wrapper::before,
 .canvas-wrapper::after {
   content: '';
@@ -143,17 +140,19 @@ h1 em {
 #webGL {
   width: 100%;
   height: var(--canvas-h);
-  display: block;
+  display: flex;
+  align-items: stretch;
   background: #1a0a03;
   border-radius: 4px;
+  overflow: hidden;
 }
 #webGL canvas {
+  display: block;
   width: 100% !important;
   height: 100% !important;
-  display: block;
 }
 
-/* ── Caption ─────────────────────────────────────────────── */
+
 .canvas-caption {
   margin: 0 5vw;
   padding: 0.9rem 0 0;
@@ -175,12 +174,6 @@ h1 em {
   opacity: 0.45;
 }
 
-/* ── Techniques section ──────────────────────────────────── */
-.techniques {
-  margin: 4rem 5vw 0;
-  padding-bottom: 5rem;
-}
-
 .section-title {
   font-family: 'Cormorant Garamond', serif;
   font-weight: 300;
@@ -198,6 +191,65 @@ h1 em {
   flex: 1;
   height: 1px;
   background: linear-gradient(to right, var(--mist), transparent);
+}
+
+
+.guide {
+  margin: 4rem 5vw 0;
+  padding-bottom: 4rem;
+}
+
+.guide-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.guide-card {
+  background: rgba(184,78,26,0.04);
+  border: 1px solid var(--mist);
+  border-radius: 6px;
+  padding: 1.6rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.5s ease, transform 0.5s ease, border-color 0.2s ease, background 0.2s ease;
+}
+.guide-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.guide-card:hover {
+  border-color: rgba(184,78,26,0.35);
+  background: rgba(184,78,26,0.07);
+}
+
+.guide-icon {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.guide-card h4 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.guide-card p {
+  font-size: 0.81rem;
+  color: var(--ink);
+  opacity: 0.62;
+  line-height: 1.7;
+}
+
+
+.techniques {
+  margin: 4rem 5vw 0;
+  padding-bottom: 5rem;
 }
 
 .tech-grid {
@@ -251,7 +303,7 @@ h1 em {
   line-height: 1.8;
 }
 
-/* ── Inspiration section ─────────────────────────────────── */
+
 .inspiration {
   margin: 0 5vw 0;
   padding-bottom: 1rem;
@@ -315,7 +367,64 @@ h1 em {
   border-radius: 3px;
 }
 
-/* ── Footer ──────────────────────────────────────────────── */
+
+.team-section {
+  margin: 0 5vw;
+  padding-bottom: 5rem;
+}
+
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+@media (max-width: 640px) {
+  .team-grid { grid-template-columns: 1fr; }
+}
+
+.team-card {
+  border: 1px solid var(--mist);
+  border-radius: 6px;
+  padding: 1.8rem 1.5rem;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.team-card.visible { opacity: 1; transform: translateY(0); }
+
+.team-initial {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(184,78,26,0.10);
+  border: 1px solid rgba(184,78,26,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.4rem;
+  color: var(--rust);
+  margin: 0 auto 1rem;
+}
+
+.team-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 0.3rem;
+}
+
+.team-role {
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--rust-dim);
+  opacity: 0.65;
+}
+
+
 footer {
   border-top: 1px solid var(--mist);
   padding: 1.5rem 5vw;
@@ -350,7 +459,6 @@ footer {
 
 .footer-right { text-align: right; }
 
-/* ── Loading overlay ─────────────────────────────────────── */
 #loading-overlay {
   position: absolute; inset: 0;
   background: #1a0a03;
@@ -381,3 +489,10 @@ footer {
 }
 
 @keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Mobile ──────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  :root { --canvas-h: 340px; }
+  header { grid-template-columns: 1fr; text-align: center; }
+  .header-meta-left, .header-meta-right { text-align: center; }
+}

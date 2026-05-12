@@ -7,7 +7,7 @@ import { Sky } from 'three/addons/objects/Sky.js';
 import { Reflector } from 'three/addons/objects/Reflector.js';
 import { addBoats, boatMaterials, boatObjects, buoyMesh } from './bateaux.js';
 
-// ─── Globais ────────────────────────────────────────────────
+// Textures
 let camera, renderer, cameraControls, clock, water, sun, mirror;
 let skyEnvMap = null;
 let scene = new THREE.Scene();
@@ -15,7 +15,7 @@ clock = new THREE.Clock();
 
 let fogNear, fogFar;
 let fogMatNear, fogMatFar;
-let fogDensity = 0.55;
+let fogDensity = 0.00;
 let sceneFog;
 
 const raycaster = new THREE.Raycaster();
@@ -117,7 +117,7 @@ transition: max-height 0.35s ease, opacity 0.25s ease, padding 0.3s ease;
     section.append(header, body);
     return section;
   }
-
+ // Contrôles de la scène (UI) 
   function makeSliderRow({ icon, label, min, max, value, width, unit, onChange }) {
     const row = document.createElement('div');
     row.style.cssText = 'display:flex; align-items:center; gap:8px;';
@@ -236,6 +236,7 @@ letter-spacing: 0.05em;
   document.body.appendChild(panel);
 }
 
+// Création de l'eau avec shader de réflexion et de distorsion
 function applyFogDensity() {
   if (sceneFog) sceneFog.density = 0.00002 + fogDensity * 0.00028;
   if (fogMatNear) fogMatNear.uniforms.uDensity.value = fogDensity;
@@ -536,8 +537,8 @@ function init() {
   const W = container.clientWidth || 846;
   const H = container.clientHeight || 494;
 
-  camera = new THREE.PerspectiveCamera(55, W / H, 50, 12000);
-  camera.position.set(0, 220, 1400);
+  camera = new THREE.PerspectiveCamera(80, W / H, 80, 12000);
+  camera.position.set(0, -200, -1500);
 
   renderer = new THREE.WebGLRenderer({ antialias: true, logarithmicDepthBuffer: true });
   renderer.setSize(W, H);
@@ -548,7 +549,7 @@ function init() {
   cameraControls = new OrbitControls(camera, renderer.domElement);
   cameraControls.enableDamping = true;
   cameraControls.dampingFactor = 0.05;
-  cameraControls.target.set(0, 60, -1200);
+  cameraControls.target.set(0, 80, -1350);
   cameraControls.minAzimuthAngle = -Infinity;
   cameraControls.maxAzimuthAngle = Infinity;
   cameraControls.minPolarAngle = Math.PI / 8;
@@ -724,24 +725,6 @@ animation: hintBob 1.2s ease-in-out infinite alternate;
 flex-shrink: 0;
 `;
 
-  const text = document.createElement('span');
-  text.innerHTML = 'Cliquez & glissez un bateau pour le déplacer';
-  text.style.cssText = 'line-height:1.4; opacity:0.85;';
-
-  hint.append(icon, text);
-  document.body.appendChild(hint);
-
-  if (!document.getElementById('hintKeyframes')) {
-    const style = document.createElement('style');
-    style.id = 'hintKeyframes';
-    style.textContent = `
-@keyframes hintBob {
-from { transform: translateY(0px); }
-to { transform: translateY(-3px); }
-}
-`;
-    document.head.appendChild(style);
-  }
 
   setTimeout(() => {
     hint.style.opacity = '0';

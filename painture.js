@@ -156,7 +156,7 @@ background: linear-gradient(to right, #ff8844 ${pct0}%, #ff884440 ${pct0}%);`;
     return { row, slider, valEl };
   }
 
-  panel.appendChild(makeSection('🌫️', 'BROUILLARD — Densité de la brume', (body) => {
+  panel.appendChild(makeSection('🌫️', 'BROUILLARD - Densité de la brume', (body) => {
     const { row } = makeSliderRow({
       icon: '', label: 'Densité',
       min: 0, max: 100, value: Math.round(fogDensity * 100),
@@ -166,7 +166,7 @@ background: linear-gradient(to right, #ff8844 ${pct0}%, #ff884440 ${pct0}%);`;
     body.appendChild(row);
   }));
 
-  panel.appendChild(makeSection('🪟', 'TRANSPARENCE — Opacité des bateaux', (body) => {
+  panel.appendChild(makeSection('🪟', 'TRANSPARENCE - Opacité des bateaux', (body) => {
     const { row: rowHull } = makeSliderRow({
       icon: '🪵', label: 'Coque',
       min: 0, max: 100, value: 100,
@@ -191,7 +191,7 @@ background: linear-gradient(to right, #ff8844 ${pct0}%, #ff884440 ${pct0}%);`;
     body.append(rowHull, rowSail);
   }));
 
-  panel.appendChild(makeSection('🧭', 'POSITION — Réinitialiser les bateaux', (body) => {
+  panel.appendChild(makeSection('🧭', 'POSITION - Réinitialiser les bateaux', (body) => {
     boatObjects.forEach(({ boat, label, initX, initY, initZ }, idx) => {
       const row = document.createElement('div');
       row.style.cssText = 'display:flex; align-items:center; justify-content:space-between; gap:10px;';

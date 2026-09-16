@@ -117,7 +117,7 @@ transition: max-height 0.35s ease, opacity 0.25s ease, padding 0.3s ease;
     section.append(header, body);
     return section;
   }
- // Contrôles de la scène (UI) 
+  // Contrôles de la scène (UI) 
   function makeSliderRow({ icon, label, min, max, value, width, unit, onChange }) {
     const row = document.createElement('div');
     row.style.cssText = 'display:flex; align-items:center; gap:8px;';
@@ -136,7 +136,7 @@ transition: max-height 0.35s ease, opacity 0.25s ease, padding 0.3s ease;
     slider.max = String(max);
     slider.value = String(value);
     slider.style.cssText = SLIDER_BASE +
-`width:${width || 150}px;
+      `width:${width || 150}px;
 background: linear-gradient(to right, #ff8844 ${pct0}%, #ff884440 ${pct0}%);`;
 
     const valEl = document.createElement('span');
@@ -147,7 +147,7 @@ background: linear-gradient(to right, #ff8844 ${pct0}%, #ff884440 ${pct0}%);`;
       const v = parseFloat(slider.value);
       const pct = (v - min) / (max - min) * 100;
       slider.style.background =
-`linear-gradient(to right, #ff8844 ${pct}%, #ff884440 ${pct}%)`;
+        `linear-gradient(to right, #ff8844 ${pct}%, #ff884440 ${pct}%)`;
       valEl.textContent = Math.round(v) + (unit || '');
       onChange(v);
     });
@@ -249,7 +249,7 @@ function createSun() {
   scene.add(sky);
 
   const sunVec = new THREE.Vector3();
-  const ec = { turbidity:10, rayleigh:3, mieCoefficient:0.005, mieDirectionalG:0.7, elevation:2, azimuth:0 };
+  const ec = { turbidity: 10, rayleigh: 3, mieCoefficient: 0.005, mieDirectionalG: 0.7, elevation: 2, azimuth: 0 };
 
   const u = sky.material.uniforms;
   u['turbidity'].value = ec.turbidity;
@@ -384,12 +384,12 @@ function createClouds() {
     const g = new THREE.Group();
     for (let j = 0; j < 3 + Math.floor(Math.random() * 5); j++) {
       const s = new THREE.Sprite(mat);
-      s.position.set((Math.random()-.5)*200,(Math.random()-.5)*100,(Math.random()-.5)*200);
-      s.scale.set(300*(1+Math.random()*2), 200*(.5+Math.random()), 1);
+      s.position.set((Math.random() - .5) * 200, (Math.random() - .5) * 100, (Math.random() - .5) * 200);
+      s.scale.set(300 * (1 + Math.random() * 2), 200 * (.5 + Math.random()), 1);
       g.add(s);
     }
-    const cx = (Math.random()-.5)*8000;
-    const cz = (Math.random()-.5)*8000;
+    const cx = (Math.random() - .5) * 8000;
+    const cz = (Math.random() - .5) * 8000;
     const cy = 1000 + Math.random() * 500;
     g.position.set(cx, cy, cz);
     g.userData.initY = cy;
@@ -471,11 +471,11 @@ function makeFogSystem({ count, spread, yMin, yMax, baseSize, baseAlpha }) {
   for (let i = 0; i < count; i++) {
     const angle = Math.random() * Math.PI * 2;
     const r = (0.12 + Math.pow(Math.random(), 0.55) * 0.88) * spread;
-    positions[i*3] = Math.cos(angle) * r;
-    positions[i*3+2] = Math.sin(angle) * r;
+    positions[i * 3] = Math.cos(angle) * r;
+    positions[i * 3 + 2] = Math.sin(angle) * r;
     const t = Math.pow(Math.random(), 1.9);
-    positions[i*3+1] = yMin + t * (yMax - yMin);
-    const heightNorm = 1.0 - (positions[i*3+1] - yMin) / (yMax - yMin);
+    positions[i * 3 + 1] = yMin + t * (yMax - yMin);
+    const heightNorm = 1.0 - (positions[i * 3 + 1] - yMin) / (yMax - yMin);
     sizes[i] = baseSize * (0.45 + Math.random() * 1.55);
     baseAlphas[i] = baseAlpha * (0.35 + heightNorm * 0.65) * (0.5 + Math.random() * 0.5);
     phases[i] = Math.random() * Math.PI * 2;
@@ -507,11 +507,11 @@ function makeFogSystem({ count, spread, yMin, yMax, baseSize, baseAlpha }) {
 }
 
 function createVolumetricFog() {
-  const near = makeFogSystem({ count:3500, spread:1800, yMin:-15, yMax:130, baseSize:380, baseAlpha:0.38 });
+  const near = makeFogSystem({ count: 3500, spread: 1800, yMin: -15, yMax: 130, baseSize: 380, baseAlpha: 0.38 });
   fogNear = near.pts;
   fogMatNear = near.mat;
 
-  const far = makeFogSystem({ count:4500, spread:4200, yMin:-30, yMax:200, baseSize:240, baseAlpha:0.22 });
+  const far = makeFogSystem({ count: 4500, spread: 4200, yMin: -30, yMax: 200, baseSize: 240, baseAlpha: 0.22 });
   fogFar = far.pts;
   fogMatFar = far.mat;
 }

@@ -62,7 +62,7 @@ overflow: visible;
   const panel = document.createElement('div');
   panel.style.cssText = PANEL_CSS;
 
-  function makeSection(icon, label, buildFn) {
+  function makeSection(label, buildFn) {
     const section = document.createElement('div');
     section.style.cssText = 'border-bottom: 1px solid rgba(255,200,140,0.10);';
 
@@ -80,7 +80,7 @@ transition: background 0.15s;
     header.addEventListener('mouseleave', () => header.style.background = 'transparent');
 
     const headerLeft = document.createElement('span');
-    headerLeft.innerHTML = `${icon}${label}`;
+    headerLeft.textContent = label;
     headerLeft.style.cssText = 'font-size:11px; letter-spacing:0.1em; opacity:0.75;';
 
     const arrow = document.createElement('span');
@@ -118,12 +118,12 @@ transition: max-height 0.35s ease, opacity 0.25s ease, padding 0.3s ease;
     return section;
   }
   // Contrôles de la scène (UI) 
-  function makeSliderRow({ icon, label, min, max, value, width, unit, onChange }) {
+  function makeSliderRow({ label, min, max, value, width, unit, onChange }) {
     const row = document.createElement('div');
     row.style.cssText = 'display:flex; align-items:center; gap:8px;';
 
     const lbl = document.createElement('span');
-    lbl.innerHTML = (icon ? icon + ' ' : '') + label;
+    lbl.textContent = label;
     lbl.style.cssText = 'min-width:68px; font-size:11px; opacity:0.85;';
 
     const pct0 = unit === '%'
@@ -156,9 +156,9 @@ background: linear-gradient(to right, #ff8844 ${pct0}%, #ff884440 ${pct0}%);`;
     return { row, slider, valEl };
   }
 
-  panel.appendChild(makeSection('🌫️', 'BROUILLARD - Densité de la brume', (body) => {
+  panel.appendChild(makeSection('BROUILLARD - Densité de la brume', (body) => {
     const { row } = makeSliderRow({
-      icon: '', label: 'Densité',
+      label: 'Densité',
       min: 0, max: 100, value: Math.round(fogDensity * 100),
       width: 150, unit: '%',
       onChange: (v) => { fogDensity = v / 100; applyFogDensity(); }
@@ -166,9 +166,9 @@ background: linear-gradient(to right, #ff8844 ${pct0}%, #ff884440 ${pct0}%);`;
     body.appendChild(row);
   }));
 
-  panel.appendChild(makeSection('🪟', 'TRANSPARENCE - Opacité des bateaux', (body) => {
+  panel.appendChild(makeSection('TRANSPARENCE - Opacité des bateaux', (body) => {
     const { row: rowHull } = makeSliderRow({
-      icon: '🪵', label: 'Coque',
+      label: 'Coque',
       min: 0, max: 100, value: 100,
       width: 130, unit: '%',
       onChange: (v) => {
@@ -179,7 +179,7 @@ background: linear-gradient(to right, #ff8844 ${pct0}%, #ff884440 ${pct0}%);`;
       }
     });
     const { row: rowSail } = makeSliderRow({
-      icon: '🏳', label: 'Voile',
+      label: 'Voile',
       min: 0, max: 100, value: 90,
       width: 130, unit: '%',
       onChange: (v) => {
@@ -191,17 +191,17 @@ background: linear-gradient(to right, #ff8844 ${pct0}%, #ff884440 ${pct0}%);`;
     body.append(rowHull, rowSail);
   }));
 
-  panel.appendChild(makeSection('🧭', 'POSITION - Réinitialiser les bateaux', (body) => {
+  panel.appendChild(makeSection('POSITION - Réinitialiser les bateaux', (body) => {
     boatObjects.forEach(({ boat, label, initX, initY, initZ }, idx) => {
       const row = document.createElement('div');
       row.style.cssText = 'display:flex; align-items:center; justify-content:space-between; gap:10px;';
 
       const boatLabel = document.createElement('span');
-      boatLabel.textContent = '⛵ ' + label;
+      boatLabel.textContent = label;
       boatLabel.style.cssText = 'font-size:11px; opacity:0.75;';
 
       const resetBtn = document.createElement('button');
-      resetBtn.textContent = '↺ Reset';
+      resetBtn.textContent = 'Reset';
       resetBtn.style.cssText = `
 background: rgba(255,136,68,0.12);
 border: 1px solid rgba(255,136,68,0.35);
@@ -716,15 +716,6 @@ opacity: 1;
 transition: opacity 1.2s ease;
 max-width: 300px;
 `;
-
-  const icon = document.createElement('span');
-  icon.textContent = '🖱️';
-  icon.style.cssText = `
-font-size: 15px;
-animation: hintBob 1.2s ease-in-out infinite alternate;
-flex-shrink: 0;
-`;
-
 
   setTimeout(() => {
     hint.style.opacity = '0';
